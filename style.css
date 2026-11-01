@@ -7,6 +7,7 @@
   --background: #ffffff;
   --soft: #f6f4ff;
   --border: #e9e6f3;
+  --shadow: 0 12px 30px rgba(40, 30, 80, 0.08);
 }
 
 * {
@@ -37,10 +38,30 @@ a {
   margin-inline: auto;
 }
 
-/* 2. Navigation */
+/* 2. Accessibilité */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 15px;
+  z-index: 1000;
+  padding: 10px 16px;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+}
+
+.skip-link:focus {
+  top: 15px;
+}
+
+/* 3. Navigation */
 .header {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
 .navbar {
@@ -70,20 +91,22 @@ a {
 .nav-links a {
   font-size: 0.9rem;
   color: var(--muted);
+  transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a:focus-visible {
   color: var(--primary);
 }
 
-/* 3. Accueil */
+/* 4. Accueil */
 .hero {
   min-height: 520px;
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
   align-items: center;
   gap: 55px;
-  padding-block: 75px;
+  padding-block: 85px;
 }
 
 .eyebrow {
@@ -126,25 +149,39 @@ a {
   border-radius: 9px;
   font-weight: 700;
   font-size: 0.92rem;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .btn:hover {
   transform: translateY(-2px);
 }
 
+.btn:focus-visible,
+.nav-links a:focus-visible,
+.footer a:focus-visible {
+  outline: 3px solid #b6a7ff;
+  outline-offset: 3px;
+}
+
 .btn-primary {
   background: var(--primary);
   color: #ffffff;
+  box-shadow: 0 5px 15px rgba(115, 87, 232, 0.2);
 }
 
 .btn-primary:hover {
   background: var(--primary-dark);
+  box-shadow: 0 8px 20px rgba(115, 87, 232, 0.25);
 }
 
 .btn-outline {
   border: 1px solid var(--border);
   background: #ffffff;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .location {
@@ -162,6 +199,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: var(--shadow);
 }
 
 .code-icon {
@@ -194,7 +232,7 @@ a {
   font-size: 0.9rem;
 }
 
-/* 4. Sections */
+/* 5. Sections */
 .section {
   padding-block: 75px;
 }
@@ -210,7 +248,7 @@ a {
   max-width: 750px;
 }
 
-/* 5. Compétences */
+/* 6. Compétences */
 .skills-section {
   background: var(--soft);
 }
@@ -227,6 +265,12 @@ a {
   border: 1px solid var(--border);
   border-radius: 15px;
   padding: 25px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
 }
 
 .skill-card h3 {
@@ -239,7 +283,7 @@ a {
   font-size: 0.95rem;
 }
 
-/* 6. Projets */
+/* 7. Projets */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -252,12 +296,14 @@ a {
   border-radius: 17px;
   overflow: hidden;
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(40, 30, 80, 0.08);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
 }
 
 .project-visual {
@@ -281,6 +327,10 @@ a {
 
 .project-body {
   padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
 }
 
 .project-type {
@@ -301,19 +351,24 @@ a {
 
 .tags {
   margin-top: 16px;
+  margin-bottom: 18px;
   color: var(--primary-dark);
   font-size: 0.78rem;
   font-weight: 700;
 }
 
-/* 7. Contact */
+.project-body .btn {
+  margin-top: auto;
+}
+
+/* 8. Contact */
 .contact-section {
   background: var(--soft);
   padding-block: 75px;
   text-align: center;
 }
 
-.contact-content > p:not(.eyebrow):not(.small-note) {
+.contact-content > p:not(.eyebrow) {
   max-width: 600px;
   margin: 0 auto 25px;
   color: var(--muted);
@@ -325,22 +380,38 @@ a {
   margin-bottom: 15px;
 }
 
-.small-note {
-  margin-top: 16px;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-/* 8. Pied de page */
+/* 9. Pied de page */
 .footer {
   padding-block: 25px;
-  text-align: center;
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-/* 9. Adaptation aux téléphones */
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* 10. Adaptation aux tablettes et téléphones */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr 0.8fr;
+    gap: 30px;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 760px) {
   .navbar {
     padding-block: 18px;
@@ -370,6 +441,11 @@ a {
   .section {
     padding-block: 55px;
   }
+
+  .footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 @media (max-width: 400px) {
@@ -384,5 +460,22 @@ a {
 
   .nav-links a {
     font-size: 0.82rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+}
+
+/* 11. Respect des préférences de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
